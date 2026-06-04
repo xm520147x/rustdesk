@@ -1081,7 +1081,7 @@ fn get_api_server_(api: String, custom: String) -> String {
             return format!("http://{}", s);
         }
     }
-    "https://rustapi.nb.cn".to_owned()
+    "https://rustapi.cluster.lixin".to_owned()
 }
 
 #[inline]
