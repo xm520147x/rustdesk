@@ -78,14 +78,15 @@ fn has_no_controlling_conns() -> bool {
 
 fn start_auto_update_check() -> Sender<UpdateMsg> {
     let (tx, rx) = channel();
-    std::thread::spawn(move || start_auto_update_check_(rx));
+    //std::thread::spawn(move || start_auto_update_check_(rx));
     return tx;
 }
 
 fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
-    std::thread::sleep(Duration::from_secs(30));
-    if let Err(e) = check_update(false) {
-        log::error!("Error checking for updates: {}", e);
+    //std::thread::sleep(Duration::from_secs(30));
+    //if let Err(e) = check_update(false) {
+        //log::error!("Error checking for updates: {}", e);
+    return;
     }
 
     const MIN_INTERVAL: Duration = Duration::from_secs(60 * 10);
