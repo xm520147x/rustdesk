@@ -78,14 +78,14 @@ fn has_no_controlling_conns() -> bool {
 
 fn start_auto_update_check() -> Sender<UpdateMsg> {
     let (tx, rx) = channel();
-    //std::thread::spawn(move || start_auto_update_check_(rx));
+    std::thread::spawn(move || start_auto_update_check_(rx));
     return tx;
 }
 
 fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
-    //std::thread::sleep(Duration::from_secs(30));
-    //if let Err(e) = check_update(false) {
-        //log::error!("Error checking for updates: {}", e);
+    std::thread::sleep(Duration::from_secs(30));
+    if let Err(e) = check_update(false) {
+        log::error!("Error checking for updates: {}", e);
     return;
     }
 
@@ -120,15 +120,14 @@ fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
 }
 
 fn check_update(manually: bool) -> ResultType<()> {
-    //#[cfg(target_os = "windows")]
-    //let update_msi = crate::platform::is_msi_installed()? && !crate::is_custom_client();
-    //if !(manually || config::Config::get_bool_option(config::keys::OPTION_ALLOW_AUTO_UPDATE)) {
-    //    return Ok(());
-    //}
-    //if do_check_software_update().is_err() {
-    // ignore
-    //    return Ok(());
-    Ok(())
+    #[cfg(target_os = "windows")]
+    let update_msi = crate::platform::is_msi_installed()? && !crate::is_custom_client();
+    if !(manually || config::Config::get_bool_option(config::keys::OPTION_ALLOW_AUTO_UPDATE)) {
+        return Ok(());
+    }
+    if do_check_software_update().is_err() {
+       // ignore
+    return Ok(());
     }
 
     let update_url = crate::common::SOFTWARE_UPDATE_URL.lock().unwrap().clone();
